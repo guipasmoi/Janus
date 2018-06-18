@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <ApplicationIcon />
+    <StartupObject />
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Capgemini.Cauldron.Core" Version="3.0.20" />
+    <PackageReference Include="Cauldron.BasicInterceptors" Version="3.0.28" />
+    <PackageReference Include="Fody" Version="3.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Janus\Janus.csproj" />
+  </ItemGroup>
+
+</Project>
