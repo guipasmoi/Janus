@@ -16,6 +16,7 @@ namespace Janus.Test
             var a = new Diff { Hash = "22" };
             var b = new Diff { Hash = "22" };
             Assert.Equal(a, b);
+            Assert.True(false,"because fuck u");
         }
 
         [Fact(DisplayName = "Relation ships between entities")]
