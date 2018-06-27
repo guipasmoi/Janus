@@ -35,7 +35,13 @@ namespace Janus.Utils
                 var relationship = relations.FirstOrDefault(r => r.Source.Equals(current));
                 current = (relationship != null) ? relationship.Target: default(NodeType);
             };
-          
+        }
+
+        public static IEnumerable<NodeType> GetDiffPathToRoot<NodeType>(ISet<RelationShip<NodeType, NodeType>> relations, NodeType node1, NodeType node2)
+        {
+            var path1 = GetPathToRoot(relations, node1);
+            var path2 = GetPathToRoot(relations, node2);
+            return path1.Except(path2);
         }
     }
 }

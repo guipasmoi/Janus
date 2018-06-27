@@ -11,6 +11,8 @@ namespace Janus
 {
     public class Repository
     {
+        public Action<Diff> SetState { get; set; }
+
         public static Repository GlobalRepository = new Repository();
 
         public Diff Current { get; private set; }
@@ -28,14 +30,15 @@ namespace Janus
             history = new HashSet<Diff> { Current };
         }
 
-        public static void Save(Repository repo, string path= @"C:\Users\guipa\Desktop\repo.json")
+        public static void Save(Repository repo, string path = @"C:\Users\guipa\Desktop\repo.json")
         {
             string output = JsonConvert.SerializeObject(repo);
-            File.WriteAllText(path, output);     
+            File.WriteAllText(path, output);
         }
 
-        public static Repository Load(string path) {
-            var output =File.ReadAllText(path);
+        public static Repository Load(string path)
+        {
+            var output = File.ReadAllText(path);
             return JsonConvert.DeserializeObject<Repository>(output);
         }
 
@@ -52,6 +55,13 @@ namespace Janus
             return Current;
         }
 
+        public void Checkout(Diff from)
+        {
+            // Todo throw if staging not empty or validate commit 
+            SetState(from);
+            Current = from;
+        }
+
         public void Rebase(Diff from, Diff onto)
         {
             throw new NotImplementedException();
@@ -59,6 +69,7 @@ namespace Janus
 
         public void Merge(Diff from, Diff onto, string comment)
         {
+            var a = Fusion.GetDiffPathToRoot(Relations, from, onto);
             throw new NotImplementedException();
         }
 
@@ -79,7 +90,7 @@ namespace Janus
 
         public Value CreateValue(Entity entity, RelationShipDescriptor property, string data, string type = "")
         {
-            var value = new Value { Data = data, Id = (_idValue++).ToString() };
+            var value = new Value { Data = data, Id = (_idValue++).ToString(), Type = type };
             Staging.OwnerShips.Add(
                 new RelationShip<Value, Entity, RelationShipDescriptor>(
                     value,
@@ -105,7 +116,8 @@ namespace Janus
             {
                 throw new Exception($"missing entity {source.Id}");
             }
-            if(!state.Entities.Any(e => e == target)){
+            if (!state.Entities.Any(e => e == target))
+            {
                 throw new Exception($"missing entity {target.Id}");
             }
             Staging.RelationShips.Add(new RelationShip<Entity, Entity, RelationShipDescriptor>(source, target, property));

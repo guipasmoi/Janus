@@ -10,7 +10,7 @@ namespace Janus.Attributes
     [AttributeUsage(AttributeTargets.All, AllowMultiple = false, Inherited = false)]
     public class EntityAttribute : Attribute, Cauldron.Interception.IPropertyInterceptorInitialize, Cauldron.Interception.IPropertySetterInterceptor
     {
-        static Dictionary<Object, Entity> map = new Dictionary<object, Entity>();
+        public static Dictionary<Object, Entity> map = new Dictionary<object, Entity>();
         public bool OnException(Exception e)
         {
             throw e;
@@ -37,7 +37,8 @@ namespace Janus.Attributes
                 Repository.GlobalRepository.CreateValue(
                     entity,
                     new RelationShipDescriptor { Name = propertyInterceptionInfo.PropertyName },
-                    newValue.ToString()
+                    newValue.ToString(),
+                    newValue.GetType().FullName
                    );
             }
             else
