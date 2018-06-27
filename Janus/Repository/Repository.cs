@@ -18,7 +18,9 @@ namespace Janus
         public Diff Current { get; private set; }
         public Diff Staging { get; private set; }
 
+        [JsonProperty]
         private HashSet<Diff> history = new HashSet<Diff> { new Diff() };
+        [JsonProperty]
         private HashSet<RelationShip<Diff, Diff>> Relations = new HashSet<RelationShip<Diff, Diff>>();
         // add Tags
         // add branches
@@ -32,7 +34,7 @@ namespace Janus
 
         public static void Save(Repository repo, string path = @"C:\Users\guipa\Desktop\repo.json")
         {
-            string output = JsonConvert.SerializeObject(repo);
+            string output = JsonConvert.SerializeObject(repo, Formatting.Indented);
             File.WriteAllText(path, output);
         }
 

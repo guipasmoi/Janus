@@ -11,7 +11,8 @@ namespace Janus
         // override object.Equals
         public override bool Equals(object obj)
         {
-            return Id.Equals(obj);
+            var e = obj as Entity;
+            return Id.Equals(e?.Id);
         }
 
         // override object.GetHashCode
